@@ -75,14 +75,12 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException
-     *  \Mcustiel\PhpSimpleDependencyInjection\Exception\DependencyDoesNotExistException
-     * @expectedExceptionMessage
-     *  Dependency identified by 'dependency' does not exist
+     * @expectedException        \Mcustiel\PhpSimpleDependencyInjection\Exception\DependencyDoesNotExistException
+     * @expectedExceptionMessage Dependency identified by 'doesNotExists' does not exist
      */
     public function testDependencyContainerWhenDependencyDoesNotExist()
     {
-        $this->dependencyContainer->get('dependency');
+        $this->dependencyContainer->get('doesNotExists');
     }
 
     private function areTheSame(&$object1, &$object2)

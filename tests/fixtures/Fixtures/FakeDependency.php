@@ -1,6 +1,9 @@
 <?php
 namespace Fixtures;
 
+/**
+ * @codeCoverageIgnore
+ */
 class FakeDependency
 {
     private $aValue;
@@ -13,11 +16,5 @@ class FakeDependency
     public function getAValue()
     {
         return $this->aValue;
-    }
-
-    public function setAValue($aValue)
-    {
-        $this->aValue = $aValue;
-        return $this;
     }
 }
