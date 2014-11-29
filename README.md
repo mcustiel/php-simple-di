@@ -71,6 +71,10 @@ $dependencyContainer->add('dbConnection', function() {
 $dependencyContainer->add('cache', function() {
     return new CacheManager($cacheConfig);
 }, true);
+
+$instance1 = DependencyContainer::getInstance()->get('cache');
+$instance2 = DependencyContainer::getInstance()->get('cache');
+// $instance1 and $instance2 references the same object
 ```
 
 #### Prototype behavior
@@ -79,6 +83,10 @@ $dependencyContainer->add('cache', function() {
 $dependencyContainer->add('dbConnection', function() {
     return new DatabaseConnection($dbConfig);
 }, false);
+
+$instance1 = DependencyContainer::getInstance()->get('cache');
+$instance2 = DependencyContainer::getInstance()->get('cache');
+// $instance1 and $instance2 references different objects
 ```
 
 Notes
