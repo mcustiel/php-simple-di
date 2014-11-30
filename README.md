@@ -72,9 +72,9 @@ $dependencyContainer->add('cache', function() {
     return new CacheManager($cacheConfig);
 }, true);
 
-$instance1 = DependencyContainer::getInstance()->get('cache');
-$instance2 = DependencyContainer::getInstance()->get('cache');
-// $instance1 and $instance2 references the same object
+$instance1 = $dependencyContainer->get('cache');
+$instance2 = $dependencyContainer->get('cache');
+// $instance1 and $instance2 reference the same object
 ```
 
 #### Prototype behavior
@@ -84,12 +84,20 @@ $dependencyContainer->add('dbConnection', function() {
     return new DatabaseConnection($dbConfig);
 }, false);
 
-$instance1 = DependencyContainer::getInstance()->get('cache');
-$instance2 = DependencyContainer::getInstance()->get('cache');
-// $instance1 and $instance2 references different objects
+$instance1 = $dependencyContainer->get('cache');
+$instance2 = $dependencyContainer->get('cache');
+// $instance1 and $instance2 reference different objects
 ```
 
 Notes
 =====
 
-There's a lot of discussion around Singleton pattern, mentioning it as an antipattern because it's hard to test. Anyway, php-simple-di provides the container as a singleton class to allow just a single instance to be part of the execution. You should think in good practices and avoid using this class through singleton, but define it in your bootstrap file and pass the container instance as a parameter to your application dispatcher and always pass it as a parameter (injecting it as a dependency).
+There's a lot of discussion around Singleton pattern, mentioning it as an antipattern because it's hard to test. Anyway, php-simple-di provides the container as a singleton class to allow just a single instance to be part of the execution. You should think in good practices and avoid using this class through singleton, but define it in your bootstrap file and pass the container instance as a parameter to your application dispatcher and always pass it as a parameter (injecting it as a dependency). Then, remember to use it properly, don't pass the container as a dependency, but use it to obtain the dependencies and pass them to your services.
+
+```php
+// Do this:
+$dbConnection = $dependencyContainer->get('cache');
+$personDao = new PersonDao($dbConnection); // Pass the proper dependency
+// Instead of doing this:
+$personDao = new PersonDao($dependencyContainer); // This works but is heretic and makes a little kitten cry.
+```
