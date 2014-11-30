@@ -96,7 +96,7 @@ There's a lot of discussion around Singleton pattern, mentioning it as an antipa
 
 ```php
 // Do this:
-$dbConnection = $dependencyContainer->get('cache');
+$dbConnection = $dependencyContainer->get('dbConnection');
 $personDao = new PersonDao($dbConnection); // Pass the proper dependency
 // Instead of doing this:
 $personDao = new PersonDao($dependencyContainer); // This works but is heretic and makes a little kitten cry.
