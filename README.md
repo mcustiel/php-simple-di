@@ -43,10 +43,10 @@ $dependencyContainer = DependencyContainer::getInstance();
 // ...
 $dbConfig = loadDbConfig();
 $cacheConfig = loadCacheConfig();
-$dependencyContainer->add('dbConnection', function() {
+$dependencyContainer->add('dbConnection', function() use ($dbConfig) {
     return new DatabaseConnection($dbConfig);
 });
-$dependencyContainer->add('cache', function() {
+$dependencyContainer->add('cache', function() use ($cacheConfig) {
     return new CacheManager($cacheConfig);
 });
 ```
