@@ -20,6 +20,7 @@ namespace Tests\SimplePhpDependencyInjection;
 use Mcustiel\PhpSimpleDependencyInjection\DependencyContainer;
 use Fixtures\FakeDependency;
 use Fixtures\AnnotatedDependency;
+use Fixtures\AnotherDependency;
 
 class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
@@ -119,6 +120,13 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             function ()
             {
                 return new FakeDependency('someValue');
+            }
+        );
+        $this->dependencyContainer->add(
+            'anotherDependency',
+            function ()
+            {
+                return new AnotherDependency('anotherValue');
             }
         );
         $this->dependencyContainer->add(

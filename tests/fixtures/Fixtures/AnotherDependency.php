@@ -17,42 +17,20 @@
  */
 namespace Fixtures;
 
-use Mcustiel\PhpSimpleDependencyInjection\Annotation\Inject;
-
 /**
  * @codeCoverageIgnore
  */
-class AnnotatedDependency
+class AnotherDependency
 {
-    /**
-     * @Inject("fakeDependency")
-     */
-    private $fakeDependency;
+    private $aValue;
 
-    /**
-     * @Inject("anotherDependency")
-     */
-    private $anotherDependency;
-
-    public function getFakeDependency()
+    public function __construct($initializer)
     {
-        return $this->fakeDependency;
+        $this->aValue = $initializer;
     }
 
-    public function setFakeDependency($fakeDependency)
+    public function getAValue()
     {
-        $this->fakeDependency = $fakeDependency;
-        return $this;
-    }
-
-    public function getAnotherDependency()
-    {
-        return $this->anotherDependency;
-    }
-
-    public function setAnotherDependency($anotherDependency)
-    {
-        $this->anotherDependency = $anotherDependency;
-        return $this;
+        return $this->aValue;
     }
 }
