@@ -15,11 +15,28 @@
  * You should have received a copy of the GNU General Public License
  * along with php-simple-di.  If not, see <http://www.gnu.org/licenses/>.
  */
+namespace Fixtures;
 
-$loader = require __DIR__ . '/../vendor/autoload.php';
-$loader->add('Mcustiel\\', __DIR__ . '/../src');
-$loader->add('Tests\\', __DIR__ . '/unit');
-$loader->add('Fixtures\\', __DIR__ . '/fixtures');
-$loader->add('Doctrine\\', __DIR__ . '/../vendor/doctrine/annotations/lib');
+use Mcustiel\PhpSimpleDependencyInjection\Annotation\Inject;
 
-\Doctrine\Common\Annotations\AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
+/**
+ * @codeCoverageIgnore
+ */
+class AnnotatedDependency
+{
+    /**
+     * @Inject("fakeDependency")
+     */
+    private $fakeDependency;
+
+    public function getFakeDependency()
+    {
+        return $this->fakeDependency;
+    }
+
+    public function setFakeDependency($fakeDependency)
+    {
+        $this->fakeDependency = $fakeDependency;
+        return $this;
+    }
+}

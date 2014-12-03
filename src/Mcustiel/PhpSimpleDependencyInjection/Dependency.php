@@ -17,6 +17,7 @@
  */
 namespace Mcustiel\PhpSimpleDependencyInjection;
 
+use Mcustiel\PhpSimpleDependencyInjection\Util\PropertyInjectionParser;
 /**
  * Represents a dependency, with a loader that is the generator of the dependency object
  * and the object itself. If the object is treated as a singleton the same instance
@@ -29,22 +30,41 @@ class Dependency
     private $object;
     private $singleton;
     private $loader;
+    private $injectionParser;
 
     public function __construct(callable $loader, $singleton = true)
     {
         $this->singleton = (boolean) $singleton;
         $this->loader = $loader;
+        $this->injectionParser = new PropertyInjectionParser();
     }
 
     public function get()
     {
-        if (!$this->singleton) {
-            return call_user_func($this->loader);
+        if (! $this->singleton) {
+            return $this->getObjectFromLoader();
         }
         if ($this->object === null ) {
-            $this->object = call_user_func($this->loader);
+            $this->object = $this->getObjectFromLoader();
         }
 
         return $this->object;
+    }
+
+    private function getObjectFromLoader()
+    {
+        $object = call_user_func($this->loader);
+        $this->parseInjection($object);
+        return $object;
+    }
+
+    private function parseInjection($object)
+    {
+        if (is_object($object)) {
+            $reflection = new \ReflectionObject($object);
+            foreach ($reflection->getProperties() as $property) {
+                $this->injectionParser->parseProperty($property, $object);
+            }
+        }
     }
 }
