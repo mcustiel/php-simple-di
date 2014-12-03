@@ -15,11 +15,22 @@
  * You should have received a copy of the GNU General Public License
  * along with php-simple-di.  If not, see <http://www.gnu.org/licenses/>.
  */
+namespace Fixtures;
 
-$loader = require __DIR__ . '/../vendor/autoload.php';
-$loader->add('Mcustiel\\', __DIR__ . '/../src');
-$loader->add('Tests\\', __DIR__ . '/unit');
-$loader->add('Fixtures\\', __DIR__ . '/fixtures');
-$loader->add('Doctrine\\', __DIR__ . '/../vendor/doctrine/annotations/lib');
+/**
+ * @codeCoverageIgnore
+ */
+class AnotherDependency
+{
+    private $aValue;
 
-\Doctrine\Common\Annotations\AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
+    public function __construct($initializer)
+    {
+        $this->aValue = $initializer;
+    }
+
+    public function getAValue()
+    {
+        return $this->aValue;
+    }
+}

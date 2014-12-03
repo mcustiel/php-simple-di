@@ -19,6 +19,8 @@ namespace Tests\SimplePhpDependencyInjection;
 
 use Mcustiel\PhpSimpleDependencyInjection\DependencyContainer;
 use Fixtures\FakeDependency;
+use Fixtures\AnnotatedDependency;
+use Fixtures\AnotherDependency;
 
 class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,62 +38,74 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testDependencyContainerWhenDependencyExists()
     {
-        $this->dependencyContainer->add('dependency', function() {
-            return new FakeDependency('someValue');
-        });
+        $this->dependencyContainer->add(
+            'fakeDependency',
+            function ()
+            {
+                return new FakeDependency('someValue');
+            }
+        );
 
-        $this->assertInstanceOf(
-            '\Fixtures\FakeDependency',
-            $this->dependencyContainer->get('dependency')
+        $this->assertInstanceOf('\Fixtures\FakeDependency',
+            $this->dependencyContainer->get('fakeDependency'));
+        $this->assertEquals('someValue', $this->dependencyContainer->get('fakeDependency')
+            ->getAValue());
+    }
+
+    public function testDependencyContainerWhitValuesFromOutsideTheClosure()
+    {
+        $theValue = 'outsideValue';
+        $this->dependencyContainer->add(
+            'fakeDependency',
+            function () use($theValue)
+            {
+                return new FakeDependency($theValue);
+            }
         );
-        $this->assertEquals(
-            'someValue',
-            $this->dependencyContainer->get('dependency')->getAValue()
-        );
+
+        $this->assertEquals('outsideValue', $this->dependencyContainer->get('fakeDependency')
+            ->getAValue());
     }
 
     public function testDependencyContainerSingleton()
     {
-        $this->dependencyContainer->add('dependency', function() {
-            return new FakeDependency('someValue');
-        });
+        $this->dependencyContainer->add(
+            'fakeDependency',
+            function ()
+            {
+                return new FakeDependency('someValue');
+            }
+        );
 
-        $instance1 = $this->dependencyContainer->get('dependency');
-        $instance2 = $this->dependencyContainer->get('dependency');
-        $this->assertInstanceOf(
-            '\Fixtures\FakeDependency',
-            $instance1
-        );
-        $this->assertInstanceOf(
-            '\Fixtures\FakeDependency',
-            $instance2
-        );
+        $instance1 = $this->dependencyContainer->get('fakeDependency');
+        $instance2 = $this->dependencyContainer->get('fakeDependency');
+        $this->assertInstanceOf('\Fixtures\FakeDependency', $instance1);
+        $this->assertInstanceOf('\Fixtures\FakeDependency', $instance2);
 
         $this->assertSame($instance1, $instance2);
     }
 
     public function testDependencyContainerNoSingleton()
     {
-        $this->dependencyContainer->add('dependency', function() {
-            return new FakeDependency('someValue');
-        }, false);
+        $this->dependencyContainer->add(
+            'fakeDependency',
+            function ()
+            {
+                return new FakeDependency('someValue');
+            },
+            false
+        );
 
-        $instance1 = $this->dependencyContainer->get('dependency');
-        $instance2 = $this->dependencyContainer->get('dependency');
-        $this->assertInstanceOf(
-            '\Fixtures\FakeDependency',
-            $instance1
-        );
-        $this->assertInstanceOf(
-            '\Fixtures\FakeDependency',
-            $instance2
-        );
+        $instance1 = $this->dependencyContainer->get('fakeDependency');
+        $instance2 = $this->dependencyContainer->get('fakeDependency');
+        $this->assertInstanceOf('\Fixtures\FakeDependency', $instance1);
+        $this->assertInstanceOf('\Fixtures\FakeDependency', $instance2);
 
         $this->assertFalse($this->areTheSame($instance1, $instance2));
     }
 
     /**
-     * @expectedException        \Mcustiel\PhpSimpleDependencyInjection\Exception\DependencyDoesNotExistException
+     * @expectedException \Mcustiel\PhpSimpleDependencyInjection\Exception\DependencyDoesNotExistException
      * @expectedExceptionMessage Dependency identified by 'doesNotExists' does not exist
      */
     public function testDependencyContainerWhenDependencyDoesNotExist()
