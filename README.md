@@ -39,14 +39,14 @@ In your bootstrap file you must define all the possible dependencies that your c
 ```php
 use Mcustiel\PhpSimpleDependencyInjection\DependencyContainer;
 
-$dependencyContainer = DependencyContainer::getInstance();
+$dependencyInjectionService = new DependencyInjectionService();
 // ...
 $dbConfig = loadDbConfig();
 $cacheConfig = loadCacheConfig();
-$dependencyContainer->add('dbConnection', function() use ($dbConfig) {
+$dependencyInjectionService->register('dbConnection', function() use ($dbConfig) {
     return new DatabaseConnection($dbConfig);
 });
-$dependencyContainer->add('cache', function() use ($cacheConfig) {
+$dependencyInjectionService->register('cache', function() use ($cacheConfig) {
     return new CacheManager($cacheConfig);
 });
 ```
@@ -55,7 +55,7 @@ $dependencyContainer->add('cache', function() use ($cacheConfig) {
 Then you can retrieve instances by refering them through their identifier.
 
 ```php
-$cacheManager = DependencyContainer::getInstance()->get('cache');
+$cacheManager = $dependencyInjectionService->get('cache');
 ```
 
 ### Instances
@@ -64,28 +64,28 @@ php-simple-di creates "singleton" instances by default, this means everytime you
 #### Singleton behavior
 
 ```php
-$dependencyContainer->add('dbConnection', function() {
+$dependencyInjectionService->add('dbConnection', function() {
     return new DatabaseConnection($dbConfig);
 });
 // or also you can make it explicit:
-$dependencyContainer->add('cache', function() {
+$dependencyInjectionService->register('cache', function() {
     return new CacheManager($cacheConfig);
 }, true);
 
-$instance1 = $dependencyContainer->get('cache');
-$instance2 = $dependencyContainer->get('cache');
+$instance1 = $dependencyInjectionService->get('cache');
+$instance2 = $dependencyInjectionService->get('cache');
 // $instance1 and $instance2 reference the same object
 ```
 
 #### Prototype behavior
 
 ```php
-$dependencyContainer->add('dbConnection', function() {
+$dependencyInjectionService->register('dbConnection', function() {
     return new DatabaseConnection($dbConfig);
 }, false);
 
-$instance1 = $dependencyContainer->get('cache');
-$instance2 = $dependencyContainer->get('cache');
+$instance1 = $dependencyInjectionService->get('cache');
+$instance2 = $dependencyInjectionService->get('cache');
 // $instance1 and $instance2 reference different objects
 ```
 
@@ -96,8 +96,8 @@ There's a lot of discussion around Singleton pattern, mentioning it as an antipa
 
 ```php
 // Do this:
-$dbConnection = $dependencyContainer->get('dbConnection');
+$dbConnection = $dependencyInjectionService->get('dbConnection');
 $personDao = new PersonDao($dbConnection); // Pass the proper dependency
 // Instead of doing this:
-$personDao = new PersonDao($dependencyContainer); // This works but is heretic and makes a little kitten cry.
+$personDao = new PersonDao($dependencyInjectionService); // This works but is heretic and makes a little kitten cry.
 ```
