@@ -12,10 +12,9 @@ Installation
 
 ### Composer:
 
-Adding this to your composer.json should be enough (not tested, sorry):
+Adding this to your composer.json should be enough, this project wasn't added to packagist yet:
 ```javascript  
 {
-    "name": "mcustiel/php-simple-di",
     "repositories": [
         {
             "type": "vcs",
