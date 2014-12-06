@@ -3,8 +3,9 @@ namespace Tests\SimplePhpDependencyInjection;
 
 use Mcustiel\PhpSimpleDependencyInjection\DependencyContainer;
 use Fixtures\FakeDependency;
-use Fixtures\AnnotatedDependency;
+use Fixtures\RequiresAnotherDependency;
 use Fixtures\AnotherDependency;
+use Mcustiel\PhpSimpleDependencyInjection\DependencyInjectionService;
 
 class PerformanceTest extends \PHPUnit_Framework_TestCase
 {
@@ -39,19 +40,23 @@ class PerformanceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->dependencyContainer->add(
-            'annotatedDependency',
+            'requiresDependencyInConstructor',
             function ()
             {
-                return new AnnotatedDependency();
+                $injector = new DependencyInjectionService();
+                return new RequiresAnotherDependency(
+                    $injector->get('fakeDependency'),
+                    $injector->get('anotherDependency')
+                );
             },
             false
         );
         foreach ([5000, 15000, 25000, 50000] as $cycles) {
             $start = microtime(true);
             for ($i = $cycles; $i > 0; $i--) {
-                $this->dependencyContainer->get('annotatedDependency');
+                $this->dependencyContainer->get('requiresDependencyInConstructor');
             }
-            echo "\n$cycles cycles executed in " . (microtime(true) - $start) . " microseconds\n";
+            echo "\n{$cycles} cycles executed in " . (microtime(true) - $start) . " microseconds\n";
         }
     }
 }

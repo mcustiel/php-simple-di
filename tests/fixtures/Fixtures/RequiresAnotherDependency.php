@@ -22,17 +22,18 @@ use Mcustiel\PhpSimpleDependencyInjection\Annotation\Inject;
 /**
  * @codeCoverageIgnore
  */
-class AnnotatedDependency
+class RequiresAnotherDependency
 {
-    /**
-     * @Inject("fakeDependency")
-     */
     private $fakeDependency;
 
-    /**
-     * @Inject("anotherDependency")
-     */
     private $anotherDependency;
+
+    public function __construct(FakeDependency $fakeDependency,
+        AnotherDependency $anotherDependency)
+    {
+        $this->fakeDependency = $fakeDependency;
+        $this->anotherDependency = $anotherDependency;
+    }
 
     public function getFakeDependency()
     {

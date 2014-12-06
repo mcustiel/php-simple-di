@@ -19,8 +19,9 @@ namespace Tests\SimplePhpDependencyInjection;
 
 use Mcustiel\PhpSimpleDependencyInjection\DependencyContainer;
 use Fixtures\FakeDependency;
-use Fixtures\AnnotatedDependency;
+use Fixtures\RequiresAnotherDependency;
 use Fixtures\AnotherDependency;
+use Mcustiel\PhpSimpleDependencyInjection\DependencyInjectionService;
 
 class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,12 +34,12 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->dependencyContainer = DependencyContainer::getInstance();
+        $this->dependencyContainer = new DependencyInjectionService();
     }
 
     public function testDependencyContainerWhenDependencyExists()
     {
-        $this->dependencyContainer->add(
+        $this->dependencyContainer->register(
             'fakeDependency',
             function ()
             {
@@ -55,7 +56,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     public function testDependencyContainerWhitValuesFromOutsideTheClosure()
     {
         $theValue = 'outsideValue';
-        $this->dependencyContainer->add(
+        $this->dependencyContainer->register(
             'fakeDependency',
             function () use($theValue)
             {
@@ -69,7 +70,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testDependencyContainerSingleton()
     {
-        $this->dependencyContainer->add(
+        $this->dependencyContainer->register(
             'fakeDependency',
             function ()
             {
@@ -87,7 +88,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testDependencyContainerNoSingleton()
     {
-        $this->dependencyContainer->add(
+        $this->dependencyContainer->register(
             'fakeDependency',
             function ()
             {
@@ -111,6 +112,37 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     public function testDependencyContainerWhenDependencyDoesNotExist()
     {
         $this->dependencyContainer->get('doesNotExists');
+    }
+
+    public function testInjection()
+    {
+        $this->dependencyContainer->register(
+            'fakeDependency',
+            function ()
+            {
+                return new FakeDependency('someValue');
+            }
+        );
+        $this->dependencyContainer->register(
+            'anotherDependency',
+            function ()
+            {
+                return new AnotherDependency('anotherValue');
+            }
+        );
+        $this->dependencyContainer->register(
+            'requiresDependencyInConstructor',
+            function ()
+            {
+                $injector = new DependencyInjectionService();
+                return new RequiresAnotherDependency(
+                    $injector->get('fakeDependency'),
+                    $injector->get('anotherDependency')
+                );
+            }
+        );
+        $instance = $this->dependencyContainer->get('requiresDependencyInConstructor');
+        $this->assertInstanceOf(FakeDependency::class, $instance->getFakeDependency());
     }
 
     private function areTheSame(&$object1, &$object2)
