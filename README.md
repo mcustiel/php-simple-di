@@ -33,7 +33,7 @@ How to use it?
 --------------
 
 ### Registering
-In your bootstrap file you must define all the possible dependencies that your classes might need.
+In your bootstrap file (or some startup script) you must define all the possible dependencies that your classes might need.
 
 ```php
 use Mcustiel\PhpSimpleDependencyInjection\DependencyContainer;
@@ -58,7 +58,7 @@ $cacheManager = $dependencyInjectionService->get('cache');
 ```
 
 ### Instances
-php-simple-di creates "singleton" instances by default, this means everytime you request for a dependency it will return the same instance every time. If by any chance you need to change this behavior, you can define that every time you asks php-simple-di for a dependency it will return a new instance. This behavior is changed through a boolean parameter in **add** method.
+php-simple-di creates "singleton" instances by default, this means everytime you request for a dependency it will return the same instance every time. If by any chance you need to change this behavior, you can define that every time you asks php-simple-di for a dependency it will return a new instance. This behavior is changed through a boolean parameter in **register** method.
 
 #### Singleton behavior
 
