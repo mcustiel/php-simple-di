@@ -36,7 +36,7 @@ How to use it?
 In your bootstrap file (or some startup script) you must define all the possible dependencies that your classes might need.
 
 ```php
-use Mcustiel\PhpSimpleDependencyInjection\DependencyContainer;
+use Mcustiel\PhpSimpleDependencyInjection\DependencyInjectionService;
 
 $dependencyInjectionService = new DependencyInjectionService();
 // ...
@@ -89,7 +89,7 @@ $instance2 = $dependencyInjectionService->get('cache');
 ```
 
 Notes
-=====
+-----
 
 There's a lot of discussion around Singleton pattern, mentioning it as an antipattern because it's hard to test. Anyway, php-simple-di provides the container as a singleton class to allow just a single instance to be part of the execution. You should think in good practices and avoid using this class through singleton, but define it in your bootstrap file and pass the container instance as a parameter to your application dispatcher and always pass it as a parameter (injecting it as a dependency). Then, remember to use it properly, don't pass the container as a dependency, but use it to obtain the dependencies and pass them to your services.
 
