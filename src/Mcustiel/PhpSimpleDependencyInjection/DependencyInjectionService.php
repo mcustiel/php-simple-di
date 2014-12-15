@@ -17,6 +17,11 @@
  */
 namespace Mcustiel\PhpSimpleDependencyInjection;
 
+/**
+ * This class is a Wrapper to avoid that developers have to use a Singleton class.
+ *
+ * @author mcustiel
+*/
 class DependencyInjectionService
 {
     private $container;
@@ -26,11 +31,25 @@ class DependencyInjectionService
         $this->container = DependencyContainer::getInstance();
     }
 
+    /**
+     * Registers a dependency into the Dependency Injection system
+     *
+     * @param string   $identifier The identifier for this dependency
+     * @param callable $loader     The loader function for the dependency (to be called when needed)
+     * @param string   $singleton  Whether or not to return always the same instance
+     */
     public function register($identifier, callable $loader, $singleton = true)
     {
         $this->container->add($identifier, $loader, $singleton);
     }
 
+    /**
+     * Returns the dependency identified by the given identifier.
+     *
+     * @param string $identifier The identifier for the required depedency
+     *
+     * @return mixed The dependency associated with the identifier
+     */
     public function get($identifier)
     {
         return $this->container->get($identifier);

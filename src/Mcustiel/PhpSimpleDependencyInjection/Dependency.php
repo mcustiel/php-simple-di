@@ -19,13 +19,16 @@ namespace Mcustiel\PhpSimpleDependencyInjection;
 
 /**
  * Represents a dependency, with a loader that is the generator of the dependency object
- * and the object itself. If the object is treated as a singleton the same instance
+ * and the object itself.
+ * If the object is treated as a singleton the same instance
  * is always returned.
  *
  * @author mcustiel
  */
 class Dependency
 {
+    const SEPARATOR = 'PS|DI';
+
     private $object;
     private $singleton;
     private $loader;
@@ -36,12 +39,17 @@ class Dependency
         $this->loader = $loader;
     }
 
+    /**
+     * Returns the specific dependency instance.
+     *
+     * @return mixed
+     */
     public function get()
     {
-        if (!$this->singleton) {
+        if (! $this->singleton) {
             return call_user_func($this->loader);
         }
-        if ($this->object === null ) {
+        if ($this->object === null) {
             $this->object = call_user_func($this->loader);
         }
 

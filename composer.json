@@ -7,13 +7,13 @@
 	],
 	"autoload" : {
 		"psr-4" : {
-			"Mcustiel\\PhpSimpleDi\\" : "src"
+			"Mcustiel\\PhpSimpleDependencyInjection\\" : "src"
 		}
 	},
 	"name" : "Mcustiel/php-simple-di",
 	"version" : "1.1.0",
 	"type" : "library",
-	"description" : "Minimalist library to manage dependency injection.",
+	"description" : "Minimalist library to manage dependency injection with low memory usage and high performance.",
 	"license" : "GPL-3.0+",
 	"require" : {
 		"php" : ">=5.5"
