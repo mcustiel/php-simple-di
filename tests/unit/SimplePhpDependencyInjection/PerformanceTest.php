@@ -21,10 +21,10 @@ class PerformanceTest extends \PHPUnit_Framework_TestCase
         $this->dependencyContainer = DependencyContainer::getInstance();
     }
 
-    public function testInstantiation()
+    public function testInstantiationWithoutSingleton()
     {
         $this->dependencyContainer->add(
-            'fakeDependency',
+            'fakeDependencyWithouthSingleton',
             function ()
             {
                 return new FakeDependency('someValue');
@@ -32,7 +32,7 @@ class PerformanceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->dependencyContainer->add(
-            'anotherDependency',
+            'anotherDependencyWithouthSingleton',
             function ()
             {
                 return new AnotherDependency('otherValue');
@@ -40,13 +40,13 @@ class PerformanceTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->dependencyContainer->add(
-            'requiresDependencyInConstructor',
+            'requiresDependencyInConstructorWithouthSingleton',
             function ()
             {
                 $injector = new DependencyInjectionService();
                 return new RequiresAnotherDependency(
-                    $injector->get('fakeDependency'),
-                    $injector->get('anotherDependency')
+                    $injector->get('fakeDependencyWithouthSingleton'),
+                    $injector->get('anotherDependencyWithouthSingleton')
                 );
             },
             false
@@ -54,9 +54,45 @@ class PerformanceTest extends \PHPUnit_Framework_TestCase
         foreach ([5000, 15000, 25000, 50000] as $cycles) {
             $start = microtime(true);
             for ($i = $cycles; $i > 0; $i--) {
-                $this->dependencyContainer->get('requiresDependencyInConstructor');
+                $this->dependencyContainer->get('requiresDependencyInConstructorWithouthSingleton');
             }
-            echo "\n{$cycles} cycles executed in " . (microtime(true) - $start) . " microseconds\n";
+            echo "\n{$cycles} cycles executed in " . (microtime(true) - $start) . " microseconds without singleton\n";
+        }
+    }
+
+    public function testInstantiationWithSingleton()
+    {
+        $this->dependencyContainer->add(
+            'fakeDependencyWithouthSingleton',
+            function ()
+            {
+                return new FakeDependency('someValue');
+            }
+        );
+        $this->dependencyContainer->add(
+            'anotherDependencyWithouthSingleton',
+            function ()
+            {
+                return new AnotherDependency('otherValue');
+            }
+        );
+        $this->dependencyContainer->add(
+            'requiresDependencyInConstructorWithouthSingleton',
+            function ()
+            {
+                $injector = new DependencyInjectionService();
+                return new RequiresAnotherDependency(
+                    $injector->get('fakeDependencyWithouthSingleton'),
+                    $injector->get('anotherDependencyWithouthSingleton')
+                );
+            }
+        );
+        foreach ([5000, 15000, 25000, 50000] as $cycles) {
+            $start = microtime(true);
+            for ($i = $cycles; $i > 0; $i--) {
+                $this->dependencyContainer->get('requiresDependencyInConstructorWithouthSingleton');
+            }
+            echo "\n{$cycles} cycles executed in " . (microtime(true) - $start) . " microseconds with singleton\n";
         }
     }
 }
