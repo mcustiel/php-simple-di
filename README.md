@@ -12,7 +12,17 @@ Installation
 
 ### Composer:
 
-Adding this to your composer.json should be enough, this project wasn't added to packagist yet:
+Just add the packagist dependency:
+```javascript  
+{
+    "require": {
+        // ...
+        "mcustiel/php-simple-di": ">="
+    }
+}
+```
+
+Or, if you want to use the repository, adding this to your composer.json should be enough:
 ```javascript  
 {
     "repositories": [
@@ -22,6 +32,7 @@ Adding this to your composer.json should be enough, this project wasn't added to
         }
     ],
     "require": {
+        // ...
         "mcustiel/php-simple-di": "dev-master"
     }
 }
