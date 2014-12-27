@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with php-simple-di.  If not, see <http://www.gnu.org/licenses/>.
  */
-namespace Mcustiel\PhpSimpleDependencyInjection;
+namespace Mcustiel\DependencyInjection;
 
 /**
  * Represents a dependency, with a loader that is the generator of the dependency object

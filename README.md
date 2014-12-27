@@ -47,7 +47,7 @@ How to use it?
 In your bootstrap file (or some startup script) you must define all the possible dependencies that your classes might need.
 
 ```php
-use Mcustiel\PhpSimpleDependencyInjection\DependencyInjectionService;
+use Mcustiel\DependencyInjection\DependencyInjectionService;
 
 $dependencyInjectionService = new DependencyInjectionService();
 // ...

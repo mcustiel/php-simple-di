@@ -15,9 +15,9 @@
  * You should have received a copy of the GNU General Public License
  * along with php-simple-di.  If not, see <http://www.gnu.org/licenses/>.
  */
-namespace Mcustiel\PhpSimpleDependencyInjection;
+namespace Mcustiel\DependencyInjection;
 
-use Mcustiel\PhpSimpleDependencyInjection\Exception\DependencyDoesNotExistException;
+use Mcustiel\DependencyInjection\Exception\DependencyDoesNotExistException;
 
 /**
  * A minimalistic dependency container.

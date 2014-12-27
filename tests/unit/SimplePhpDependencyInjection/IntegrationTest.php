@@ -17,18 +17,18 @@
  */
 namespace Tests\SimplePhpDependencyInjection;
 
-use Mcustiel\PhpSimpleDependencyInjection\DependencyContainer;
+use Mcustiel\DependencyInjection\DependencyContainer;
 use Fixtures\FakeDependency;
 use Fixtures\RequiresAnotherDependency;
 use Fixtures\AnotherDependency;
-use Mcustiel\PhpSimpleDependencyInjection\DependencyInjectionService;
+use Mcustiel\DependencyInjection\DependencyInjectionService;
 
 class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * The unit under test.
      *
-     * @var \Mcustiel\PhpSimpleDependencyInjection\DependencyContainer
+     * @var \Mcustiel\DependencyInjection\DependencyContainer
      */
     private $dependencyContainer;
 
@@ -106,7 +106,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Mcustiel\PhpSimpleDependencyInjection\Exception\DependencyDoesNotExistException
+     * @expectedException \Mcustiel\DependencyInjection\Exception\DependencyDoesNotExistException
      * @expectedExceptionMessage Dependency identified by 'doesNotExists' does not exist
      */
     public function testDependencyContainerWhenDependencyDoesNotExist()

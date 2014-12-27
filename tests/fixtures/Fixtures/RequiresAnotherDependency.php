@@ -17,7 +17,7 @@
  */
 namespace Fixtures;
 
-use Mcustiel\PhpSimpleDependencyInjection\Annotation\Inject;
+use Mcustiel\DependencyInjection\Annotation\Inject;
 
 /**
  * @codeCoverageIgnore

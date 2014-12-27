@@ -1,18 +1,18 @@
 <?php
 namespace Tests\SimplePhpDependencyInjection;
 
-use Mcustiel\PhpSimpleDependencyInjection\DependencyContainer;
+use Mcustiel\DependencyInjection\DependencyContainer;
 use Fixtures\FakeDependency;
 use Fixtures\RequiresAnotherDependency;
 use Fixtures\AnotherDependency;
-use Mcustiel\PhpSimpleDependencyInjection\DependencyInjectionService;
+use Mcustiel\DependencyInjection\DependencyInjectionService;
 
 class PerformanceTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * The unit under test.
      *
-     * @var \Mcustiel\PhpSimpleDependencyInjection\DependencyContainer
+     * @var \Mcustiel\DependencyInjection\DependencyContainer
      */
     private $dependencyContainer;
 
