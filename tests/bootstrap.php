@@ -17,9 +17,5 @@
  */
 
 $loader = require __DIR__ . '/../vendor/autoload.php';
-$loader->add('Mcustiel\\', __DIR__ . '/../src');
-$loader->add('Tests\\', __DIR__ . '/unit');
-$loader->add('Fixtures\\', __DIR__ . '/fixtures');
-$loader->add('Doctrine\\', __DIR__ . '/../vendor/doctrine/annotations/lib');
-
-\Doctrine\Common\Annotations\AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
+$loader->addPsr4('Tests\\', __DIR__ . '/unit');
+$loader->addPsr4('Fixtures\\', __DIR__ . '/fixtures');

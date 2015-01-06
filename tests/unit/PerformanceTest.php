@@ -1,5 +1,5 @@
 <?php
-namespace Tests\SimplePhpDependencyInjection;
+namespace Unit;
 
 use Mcustiel\DependencyInjection\DependencyContainer;
 use Fixtures\FakeDependency;

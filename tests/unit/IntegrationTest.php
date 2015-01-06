@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with php-simple-di.  If not, see <http://www.gnu.org/licenses/>.
  */
-namespace Tests\SimplePhpDependencyInjection;
+namespace Unit;
 
 use Mcustiel\DependencyInjection\DependencyContainer;
 use Fixtures\FakeDependency;
