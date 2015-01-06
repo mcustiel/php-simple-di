@@ -5,7 +5,7 @@ What is it?
 -----------
 
 php-simple-di (Php Simple Dependency Injection) is a library that provides a minimalistic dependency container with the ability to provide singleton or prototype versions of the dependencies identifying them by a name.
-php-simple-di provides a singleton class where you can register your dependencies, indentifying them by a name and then you can retrieve, creating instances only on demand (it does not instanciate dependencies that are not needed for a request execution).
+php-simple-di provides a singleton class where you can register your dependencies, indentifying them by a name and then you can retrieve them. This library only creates instances on demand (it does not instanciate dependencies that are not needed for a request execution), so you only process and have in memory what you are using.
 
 Installation
 ------------
