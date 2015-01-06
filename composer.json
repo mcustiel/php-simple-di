@@ -18,7 +18,7 @@
 		}
 	},
 	"name" : "mcustiel/php-simple-di",
-	"version" : "1.2.0",
+	"version" : "1.2.1",
 	"type" : "library",
 	"description" : "Minimalist library to manage dependency injection with low memory usage and high performance.",
 	"license" : "GPL-3.0+",
