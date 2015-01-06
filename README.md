@@ -17,7 +17,7 @@ Just add the packagist dependency:
 {
     "require": {
         // ...
-        "mcustiel/php-simple-di": ">=1.1.0"
+        "mcustiel/php-simple-di": ">=1.2.0"
     }
 }
 ```
