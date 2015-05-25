@@ -74,11 +74,11 @@ php-simple-di creates "singleton" instances by default, this means everytime you
 #### Singleton behavior
 
 ```php
-$dependencyInjectionService->add('dbConnection', function() {
+$dependencyInjectionService->add('dbConnection', function() use ($dbConfig) {
     return new DatabaseConnection($dbConfig);
 });
 // or also you can make it explicit:
-$dependencyInjectionService->register('cache', function() {
+$dependencyInjectionService->register('cache', function() use ($cacheConfig) {
     return new CacheManager($cacheConfig);
 }, true);
 
@@ -90,7 +90,7 @@ $instance2 = $dependencyInjectionService->get('cache');
 #### Prototype behavior
 
 ```php
-$dependencyInjectionService->register('dbConnection', function() {
+$dependencyInjectionService->register('dbConnection', function() use ($dbConfig) {
     return new DatabaseConnection($dbConfig);
 }, false);
 
@@ -101,6 +101,26 @@ $instance2 = $dependencyInjectionService->get('cache');
 
 Notes
 -----
+
+To simplify the previous examples I've shown config as previously obtained, but php-simple-di is perfectly capable of enclosing that functionality inside callbacks, even calling itself:
+
+```php
+$dependencyInjectionService->add('config-loader', function() {
+    return new SomeConfigLoaderService();
+});
+
+$dependencyInjectionService->add('config', function() {
+    $injector = new DependencyInjectionService();
+    $configLoader = $injector->get('config-loader');
+    return $configLoader->load();
+});
+
+$dependencyInjectionService->add('dbConnection', function() {
+    $injector = new DependencyInjectionService();
+    $dbConfig = $injector->get('config');
+    return new DatabaseConnection($dbConfig);
+});
+```
 
 There's a lot of discussion around Singleton pattern, mentioning it as an antipattern because it's hard to test. Anyway, php-simple-di provides the container as a singleton class to allow just a single instance to be part of the execution. You should think in good practices and avoid using this class through singleton, but define it in your bootstrap file and pass the container instance as a parameter to your application dispatcher and always pass it as a parameter (injecting it as a dependency). Then, remember to use it properly, don't pass the container as a dependency, but use it to obtain the dependencies and pass them to your services.
 
