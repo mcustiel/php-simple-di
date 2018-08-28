@@ -12,33 +12,14 @@ Installation
 
 ### Composer:
 
-Just add the packagist dependency:
 ```javascript  
 {
     "require": {
         // ...
-        "mcustiel/php-simple-di": ">=1.2.0"
+        "mcustiel/php-simple-di": "^1.2.1"
     }
 }
 ```
-
-Or, if you want to use the repository, adding this to your composer.json should be enough:
-```javascript  
-{
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/mcustiel/php-simple-di"
-        }
-    ],
-    "require": {
-        // ...
-        "mcustiel/php-simple-di": "dev-master"
-    }
-}
-```
-
-Or just download the release and include it in your path.
 
 How to use it?
 --------------
